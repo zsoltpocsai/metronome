@@ -1,6 +1,6 @@
 package stuff.metronome;
 
-public class Main {
+public class MetronomeTest {
 
 	public static void main(String[] args) {
 		Metronome metronome;
