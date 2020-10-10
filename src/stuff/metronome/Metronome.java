@@ -17,32 +17,39 @@ public class Metronome {
 	public static final int MIN_BEAT = 1;
 	
 	private int tempo;
-	private Tick tick;
+	private int beatCount;
 	private Timer timer;
+	TickSound lowTickSound;
+	TickSound highTickSound;
 	
-	public Metronome() throws Exception {
+	public Metronome() {
 		tempo = DEFAULT_TEMPO;
-		timer = new Timer();
 		
 		try {
 			File lowTickFile = new File(this.getClass().getResource("/resources/tick_low.wav").getPath());
 			File highTickFile = new File(this.getClass().getResource("/resources/tick_high.wav").getPath());
 			
-			TickSound lowTickSound = new TickSound(lowTickFile);
-			TickSound highTickSound = new TickSound(highTickFile);
+			lowTickSound = new TickSound(lowTickFile);
+			highTickSound = new TickSound(highTickFile);
 			
-			tick = new Tick(lowTickSound, highTickSound);
-			
-		} catch (IOException | UnsupportedAudioFileException | LineUnavailableException ex) {
+		} catch (LineUnavailableException ex) {
 			ex.printStackTrace();
-			throw new Exception();
+		} catch (UnsupportedAudioFileException ex) {
+			ex.printStackTrace();
+		} catch (IOException ex) {
+			ex.printStackTrace();
 		}
 		
 		setBeatCount(DEFAULT_BEAT);
 	}
 	
 	public void start() {
-		timer.scheduleAtFixedRate(tick, 0, tempoToMillisec(tempo));
+		if (lowTickSound != null && highTickSound != null) {
+			timer = new Timer();
+			Tick tick = new Tick(lowTickSound, highTickSound);
+			tick.setBeatCount(beatCount);
+			timer.scheduleAtFixedRate(tick, 0, tempoToMillisec(tempo));
+		}
 	}
 	
 	public void stop() {
@@ -58,7 +65,7 @@ public class Metronome {
 	}
 	
 	public void setBeatCount(int bc) {
-		tick.setBeatCount(getLimitedValue(bc, MAX_BEAT, MIN_BEAT));
+		beatCount = getLimitedValue(bc, MAX_BEAT, MIN_BEAT);
 	}
 	
 	private int getLimitedValue(int value, int max, int min) {
