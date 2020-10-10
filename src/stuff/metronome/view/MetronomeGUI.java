@@ -9,6 +9,7 @@ import stuff.metronome.Metronome;
 public class MetronomeGUI extends Application {
 	
 	private Metronome metronome;
+	private MainScene scene;
 	
 	public static void main(String[] args) {
 		MetronomeGUI.launch(args);
@@ -16,14 +17,18 @@ public class MetronomeGUI extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		MainScene scene = new MainScene();
+		metronome = new Metronome();
+		scene = new MainScene();
 
 		primaryStage.setScene(scene);
 		primaryStage.setResizable(false);
 		primaryStage.setTitle("Metronome");
 		primaryStage.show();
 		
-		setMetronome(new Metronome());
+		setMetronomeControls();
+	}
+	
+	private void setMetronomeControls() {
 		
 		scene.setOnStartMetronome(new EventHandler<ActionEvent>() {
 			@Override
@@ -38,9 +43,13 @@ public class MetronomeGUI extends Application {
 				metronome.stop();
 			}
 		});
-	}
-	
-	private void setMetronome(Metronome m) {
-		metronome = m;
+		
+		scene.setTempoControl(Metronome.MIN_TEMPO, Metronome.MAX_TEMPO, Metronome.DEFAULT_TEMPO);
+		scene.addObserver(new Observer() {
+			public void update(Observable o) {
+				MainScene scene = (MainScene) o;
+				metronome.setTempo(scene.getTempoValue());
+			}
+		});
 	}
 }
