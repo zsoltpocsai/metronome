@@ -1,5 +1,7 @@
 package stuff.metronome.view;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -19,5 +21,13 @@ public class MainScene extends Scene {
 		label = new Label();
 		
 		pane.getChildren().add(button);
+	}
+	
+	public void setOnStartMetronome(EventHandler<ActionEvent> handler) {
+		button.setOnStart(handler);
+	}
+	
+	public void setOnStopMetronome(EventHandler<ActionEvent> handler) {
+		button.setOnStop(handler);
 	}
 }
