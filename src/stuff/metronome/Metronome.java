@@ -18,12 +18,15 @@ public class Metronome {
 	
 	private int tempo;
 	private int beatCount;
+	private boolean ticking;
 	private Timer timer;
 	TickSound lowTickSound;
 	TickSound highTickSound;
 	
 	public Metronome() {
 		tempo = DEFAULT_TEMPO;
+		beatCount = DEFAULT_BEAT;
+		ticking = false;
 		
 		try {
 			File lowTickFile = new File(this.getClass().getResource("/resources/tick_low.wav").getPath());
@@ -40,7 +43,7 @@ public class Metronome {
 			ex.printStackTrace();
 		}
 		
-		setBeatCount(DEFAULT_BEAT);
+		
 	}
 	
 	public void start() {
@@ -50,10 +53,12 @@ public class Metronome {
 			tick.setBeatCount(beatCount);
 			timer.scheduleAtFixedRate(tick, 0, tempoToMillisec(tempo));
 		}
+		ticking = true;
 	}
 	
 	public void stop() {
 		timer.cancel();
+		ticking = false;
 	}
 	
 	public int getTempo() {
@@ -62,6 +67,9 @@ public class Metronome {
 	
 	public void setTempo(int t) {
 		tempo = getLimitedValue(t, MAX_TEMPO, MIN_TEMPO);
+		if (ticking) {
+			stop();
+		}
 	}
 	
 	public void setBeatCount(int bc) {
