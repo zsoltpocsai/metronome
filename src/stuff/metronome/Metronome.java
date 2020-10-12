@@ -69,6 +69,7 @@ public class Metronome {
 		tempo = getLimitedValue(t, MAX_TEMPO, MIN_TEMPO);
 		if (ticking) {
 			stop();
+			start();
 		}
 	}
 	
