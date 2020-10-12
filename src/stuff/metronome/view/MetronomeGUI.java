@@ -1,8 +1,6 @@
 package stuff.metronome.view;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import stuff.metronome.Metronome;
 
@@ -25,31 +23,25 @@ public class MetronomeGUI extends Application {
 		primaryStage.setTitle("Metronome");
 		primaryStage.show();
 		
-		setMetronomeControls();
+		scene.setElementsPosition();
+		this.setMetronomeControls();
 	}
 	
 	private void setMetronomeControls() {
 		
-		scene.setOnStartMetronome(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				metronome.start();
-			}
-		});
+		scene.addEventHandler(MetronomeEvent.METRONOME_START, 
+				(MetronomeEvent event) -> { metronome.start(); });
 		
-		scene.setOnStopMetronome(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				metronome.stop();
-			}
-		});
+		scene.addEventHandler(MetronomeEvent.METRONOME_STOP, 
+				(MetronomeEvent event) -> { metronome.stop(); });
 		
-		scene.setTempoControl(Metronome.MIN_TEMPO, Metronome.MAX_TEMPO, Metronome.DEFAULT_TEMPO);
-		scene.addObserver(new Observer() {
-			public void update(Observable o) {
-				MainScene scene = (MainScene) o;
-				metronome.setTempo(scene.getTempoValue());
+		scene.setTempoControl(Metronome.MIN_TEMPO, Metronome.MAX_TEMPO, 
+				Metronome.DEFAULT_TEMPO);
+		
+		scene.addEventHandler(MetronomeEvent.TEMPO_CHANGED, 
+			(MetronomeEvent event) -> { 
+				metronome.setTempo(event.getTempo()); 
 			}
-		});
+		);
 	}
 }
