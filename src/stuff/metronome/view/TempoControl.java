@@ -30,8 +30,18 @@ public class TempoControl extends HBox {
 				updateState();
 			}
 		});
+		
+		slider.setMajorTickUnit(5.0);
+		slider.setMinorTickCount(0);
+		slider.setShowTickMarks(true);
+		slider.setShowTickLabels(true);
+		slider.setSnapToTicks(true);
 
 		this.getChildren().addAll(slider, label);
+	}
+	
+	public void setWidth(int w) {
+		slider.setPrefWidth(w);
 	}
 	
 	public int getValue() {

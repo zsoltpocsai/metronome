@@ -5,8 +5,8 @@ import javafx.scene.layout.AnchorPane;
 
 public class MainScene extends Scene {
 	
-	private static final int WIDTH = 300;
-	private static final int HEIGHT = 300;
+	private static final int WIDTH = 400;
+	private static final int HEIGHT = 250;
 	
 	private StartStopButton button;
 	private TempoControl tempoControl;
@@ -18,6 +18,8 @@ public class MainScene extends Scene {
 		button = new StartStopButton();
 		tempoControl = new TempoControl();
 		
+		tempoControl.setWidth(WIDTH * 2 / 3);
+		
 		pane.getChildren().addAll(button, tempoControl);
 	}
 	
@@ -28,7 +30,7 @@ public class MainScene extends Scene {
 	
 	public void setElementsPosition() {
 		AnchorPane.setTopAnchor(button, (double) HEIGHT * 2 / 3);
-		AnchorPane.setTopAnchor(tempoControl, (double) HEIGHT / 2);
+		AnchorPane.setTopAnchor(tempoControl, (double) HEIGHT / 3);
 		AnchorPane.setLeftAnchor(button, (WIDTH - button.getWidth()) / 2);
 		AnchorPane.setLeftAnchor(tempoControl, (WIDTH - tempoControl.getWidth()) / 2);
 	}
