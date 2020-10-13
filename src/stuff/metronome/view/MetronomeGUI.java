@@ -1,5 +1,6 @@
 package stuff.metronome.view;
 
+import javafx.stage.WindowEvent;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import stuff.metronome.Metronome;
@@ -23,6 +24,10 @@ public class MetronomeGUI extends Application {
 		primaryStage.setTitle("Metronome");
 		primaryStage.show();
 		
+		primaryStage.setOnCloseRequest((WindowEvent event) -> {
+			metronome.stop();
+		});
+		
 		scene.setElementsPosition();
 		this.setMetronomeControls();
 	}
@@ -39,9 +44,21 @@ public class MetronomeGUI extends Application {
 				Metronome.DEFAULT_TEMPO);
 		
 		scene.addEventHandler(MetronomeEvent.TEMPO_CHANGED, 
-			(MetronomeEvent event) -> { 
-				metronome.setTempo(event.getTempo()); 
+			(MetronomeEvent event) -> {
+				int newTempo = event.getTempo();
+				if (newTempo != metronome.getTempo()) {
+					metronome.setTempo(newTempo);
+				}
 			}
 		);
+		
+		scene.addEventHandler(MetronomeEvent.BEAT_CHANGED,
+			(MetronomeEvent event) -> {
+				metronome.setBeatCount(event.getBeat());
+				scene.setBeatControl(metronome.getBeatCount());
+			}
+		);
+		
+		scene.setBeatControl(Metronome.DEFAULT_BEAT);
 	}
 }
