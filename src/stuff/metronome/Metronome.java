@@ -42,8 +42,6 @@ public class Metronome {
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
-		
-		
 	}
 	
 	public void start() {
@@ -67,14 +65,23 @@ public class Metronome {
 	
 	public void setTempo(int t) {
 		tempo = getLimitedValue(t, MAX_TEMPO, MIN_TEMPO);
-		if (ticking) {
-			stop();
-			start();
-		}
+		restart();
+	}
+	
+	public int getBeatCount() {
+		return beatCount;
 	}
 	
 	public void setBeatCount(int bc) {
 		beatCount = getLimitedValue(bc, MAX_BEAT, MIN_BEAT);
+		restart();
+	}
+	
+	private void restart() {
+		if (ticking) {
+			stop();
+			start();
+		}
 	}
 	
 	private int getLimitedValue(int value, int max, int min) {
