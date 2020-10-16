@@ -20,8 +20,8 @@ public class Metronome {
 	private int beatCount;
 	private boolean ticking;
 	private Timer timer;
-	TickSound lowTickSound;
-	TickSound highTickSound;
+	private TickSound lowTickSound;
+	private TickSound highTickSound;
 	
 	public Metronome() {
 		tempo = DEFAULT_TEMPO;
