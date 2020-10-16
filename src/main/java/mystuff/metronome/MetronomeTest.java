@@ -1,4 +1,4 @@
-package stuff.metronome;
+package mystuff.metronome;
 
 public class MetronomeTest {
 

@@ -1,6 +1,5 @@
-package stuff.metronome;
+package mystuff.metronome;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,8 +16,8 @@ public class Tick {
 	public Tick() throws LineUnavailableException {
 		beatCount = 1;
 		currentBeat = 1;
-		lowTickSound = new TickSound(new File(TickSound.lowTickSoundFilePath));
-		highTickSound = new TickSound(new File(TickSound.highTickSoundFilePath));
+		lowTickSound = new TickSound(TickSound.lowTickSoundFilePath);
+		highTickSound = new TickSound(TickSound.highTickSoundFilePath);
 	}
 
 	public int getBeatCount() {

@@ -1,4 +1,4 @@
-package stuff.metronome;
+package mystuff.metronome;
 
 import java.util.Timer;
 import java.util.TimerTask;

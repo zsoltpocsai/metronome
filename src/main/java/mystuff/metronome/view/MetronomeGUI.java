@@ -1,9 +1,9 @@
-package stuff.metronome.view;
+package mystuff.metronome.view;
 
 import javafx.stage.WindowEvent;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import stuff.metronome.Metronome;
+import mystuff.metronome.Metronome;
 
 public class MetronomeGUI extends Application {
 	

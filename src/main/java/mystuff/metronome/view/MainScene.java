@@ -1,4 +1,4 @@
-package stuff.metronome.view;
+package mystuff.metronome.view;
 
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;

@@ -1,4 +1,4 @@
-package stuff.metronome.view;
+package mystuff.metronome.view;
 
 import javafx.event.Event;
 import javafx.event.EventHandler;

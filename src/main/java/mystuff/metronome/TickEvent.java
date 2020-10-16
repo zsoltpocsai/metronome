@@ -1,4 +1,4 @@
-package stuff.metronome;
+package mystuff.metronome;
 
 import java.util.EventObject;
 
