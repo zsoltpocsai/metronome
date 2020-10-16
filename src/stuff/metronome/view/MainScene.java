@@ -5,7 +5,7 @@ import javafx.scene.layout.AnchorPane;
 
 public class MainScene extends Scene {
 	
-	private static final int WIDTH = 400;
+	private static final int WIDTH = 450;
 	private static final int HEIGHT = 250;
 	
 	private StartStopButton button;
@@ -20,7 +20,7 @@ public class MainScene extends Scene {
 		tempoControl = new TempoControl();
 		beatControl = new BeatControl();
 		
-		tempoControl.setWidth(WIDTH * 2 / 3);
+		tempoControl.setWidth(WIDTH * 3 / 4);
 		
 		pane.getChildren().addAll(button, tempoControl, beatControl);
 	}

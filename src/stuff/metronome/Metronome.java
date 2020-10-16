@@ -8,7 +8,7 @@ import javax.sound.sampled.LineUnavailableException;
 public class Metronome {
 
 	public static final int DEFAULT_TEMPO = 60;
-	public static final int MAX_TEMPO = 208;
+	public static final int MAX_TEMPO = 200;
 	public static final int MIN_TEMPO = 40;
 	public static final int DEFAULT_BEAT = 4;
 	public static final int MAX_BEAT = 12;
@@ -33,6 +33,7 @@ public class Metronome {
 	}
 	
 	public void start() {
+		timer.cancel();
 		timer = new Timer();
 		timer.scheduleAtFixedRate(new TimerTask() {
 			@Override
