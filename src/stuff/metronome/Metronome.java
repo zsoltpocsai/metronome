@@ -1,11 +1,9 @@
 package stuff.metronome;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Metronome {
 
@@ -17,40 +15,31 @@ public class Metronome {
 	public static final int MIN_BEAT = 1;
 	
 	private int tempo;
-	private int beatCount;
 	private boolean ticking;
 	private Timer timer;
-	private TickSound lowTickSound;
-	private TickSound highTickSound;
+	private Tick tick;
 	
 	public Metronome() {
 		tempo = DEFAULT_TEMPO;
-		beatCount = DEFAULT_BEAT;
 		ticking = false;
+		timer = new Timer();
 		
 		try {
-			File lowTickFile = new File(this.getClass().getResource("/resources/tick_low.wav").getPath());
-			File highTickFile = new File(this.getClass().getResource("/resources/tick_high.wav").getPath());
-			
-			lowTickSound = new TickSound(lowTickFile);
-			highTickSound = new TickSound(highTickFile);
-			
+			tick = new Tick();
+			tick.setBeatCount(DEFAULT_BEAT);
 		} catch (LineUnavailableException ex) {
-			ex.printStackTrace();
-		} catch (UnsupportedAudioFileException ex) {
-			ex.printStackTrace();
-		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
 	}
 	
 	public void start() {
-		if (lowTickSound != null && highTickSound != null) {
-			timer = new Timer();
-			Tick tick = new Tick(lowTickSound, highTickSound);
-			tick.setBeatCount(beatCount);
-			timer.scheduleAtFixedRate(tick, 0, tempoToMillisec(tempo));
-		}
+		timer = new Timer();
+		timer.scheduleAtFixedRate(new TimerTask() {
+			@Override
+			public void run() {
+				tick.play();
+			}
+		}, 0, tempoToMillisec(tempo));
 		ticking = true;
 	}
 	
@@ -69,12 +58,11 @@ public class Metronome {
 	}
 	
 	public int getBeatCount() {
-		return beatCount;
+		return tick.getBeatCount();
 	}
 	
 	public void setBeatCount(int bc) {
-		beatCount = getLimitedValue(bc, MAX_BEAT, MIN_BEAT);
-		restart();
+		tick.setBeatCount(getLimitedValue(bc, MAX_BEAT, MIN_BEAT));
 	}
 	
 	private void restart() {

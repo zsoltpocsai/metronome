@@ -1,19 +1,21 @@
 package stuff.metronome;
 
-import java.util.TimerTask;
+import java.io.File;
 
-public class Tick extends TimerTask {
+import javax.sound.sampled.LineUnavailableException;
+
+public class Tick {
 	
 	private TickSound lowTickSound;
 	private TickSound highTickSound;
 	private int beatCount;
 	private int currentBeat;
 	
-	public Tick(TickSound low, TickSound high) {
-		lowTickSound = low;
-		highTickSound = high;
+	public Tick() throws LineUnavailableException {
 		beatCount = 1;
 		currentBeat = 1;
+		lowTickSound = new TickSound(new File(TickSound.lowTickSoundFilePath));
+		highTickSound = new TickSound(new File(TickSound.highTickSoundFilePath));
 	}
 
 	public int getBeatCount() {
@@ -28,12 +30,11 @@ public class Tick extends TimerTask {
 		return currentBeat;
 	}
 	
-	@Override
-	public void run() {
+	public void play() {
 		if (beatCount > 1) {
 			playInBar();
 		} else {
-			lowTickSound.play();
+			playSingle();
 		}
 	}
 	
@@ -46,8 +47,12 @@ public class Tick extends TimerTask {
 		advanceBeat();
 	}
 	
+	private void playSingle() {
+		lowTickSound.play();
+	}
+	
 	private void advanceBeat() {
-		if (currentBeat == beatCount) {
+		if (currentBeat >= beatCount) {
 			currentBeat = 1;
 		} else {
 			currentBeat += 1;

@@ -13,14 +13,25 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class TickSound {
 
-	Clip clip;
+	private static String resourcesPath = 
+			TickSound.class.getResource("/resources/").getPath();
+	public static String lowTickSoundFilePath = resourcesPath + "tick_low.wav";
+	public static String highTickSoundFilePath = resourcesPath + "tick_high.wav";
 	
-	public TickSound(File soundFile) throws IOException, 
-			UnsupportedAudioFileException, LineUnavailableException {
-		
-		AudioInputStream stream = AudioSystem.getAudioInputStream(soundFile);
+	private Clip clip;
+	
+	public TickSound(File soundFile) throws LineUnavailableException {
+		AudioInputStream stream;
 		clip = AudioSystem.getClip();
-		clip.open(stream);
+		
+		try {
+			stream = AudioSystem.getAudioInputStream(soundFile);
+			clip.open(stream);
+		} catch (IOException | UnsupportedAudioFileException ex) {
+			System.err.println("Audio file couldn't be loaded!");
+			ex.printStackTrace();
+		}
+		
 		clip.addLineListener(new LineListener() {
 			@Override
 			public void update(LineEvent event) {
