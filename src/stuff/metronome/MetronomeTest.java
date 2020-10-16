@@ -15,6 +15,13 @@ public class MetronomeTest {
 		metronome.setTempo(80);
 		metronome.setBeatCount(6);
 		metronome.start();
+		
+		metronome.addTickListener(new TickListener() {
+			@Override
+			public void update(TickEvent event) {
+				System.out.println("Tick event: " + event.getType());
+			}
+		});
 	}
 
 }

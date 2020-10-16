@@ -1,6 +1,8 @@
 package stuff.metronome;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.sound.sampled.LineUnavailableException;
 
@@ -10,6 +12,7 @@ public class Tick {
 	private TickSound highTickSound;
 	private int beatCount;
 	private int currentBeat;
+	private List<TickListener> tickListeners = new ArrayList<TickListener>();
 	
 	public Tick() throws LineUnavailableException {
 		beatCount = 1;
@@ -38,17 +41,23 @@ public class Tick {
 		}
 	}
 	
+	public void addTickListener(TickListener listener) {
+		tickListeners.add(listener);
+	}
+	
 	private void playInBar() {
 		if (currentBeat == 1) {
 			highTickSound.play();
+			sendTickEvent(TickEvent.Type.FIRST_BEAT);
 		} else {
-			lowTickSound.play();
+			playSingle();
 		}
 		advanceBeat();
 	}
 	
 	private void playSingle() {
 		lowTickSound.play();
+		sendTickEvent(TickEvent.Type.ANY_BEAT);
 	}
 	
 	private void advanceBeat() {
@@ -56,6 +65,13 @@ public class Tick {
 			currentBeat = 1;
 		} else {
 			currentBeat += 1;
+		}
+	}
+	
+	private void sendTickEvent(TickEvent.Type type) {
+		TickEvent event = new TickEvent(type, this);
+		for (TickListener listener : tickListeners) {
+			listener.update(event);
 		}
 	}
 }

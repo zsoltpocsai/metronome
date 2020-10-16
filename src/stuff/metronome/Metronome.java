@@ -65,6 +65,10 @@ public class Metronome {
 		tick.setBeatCount(getLimitedValue(bc, MAX_BEAT, MIN_BEAT));
 	}
 	
+	public void addTickListener(TickListener listener) {
+		tick.addTickListener(listener);
+	}
+	
 	private void restart() {
 		if (ticking) {
 			stop();
