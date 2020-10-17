@@ -1,9 +1,8 @@
 package mystuff.metronome;
 
-import java.io.File;
+import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.InputStream;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -15,29 +14,8 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class TickSound {
 
-	private static String soundSourcesPath;
-	public static String lowTickSoundFilePath;
-	public static String highTickSoundFilePath;
-	
-	static {
-		
-		try {
-			Path path = Paths.get(TickSound.class.getProtectionDomain().
-					getCodeSource().getLocation().toURI());
-			
-			if (path.endsWith("bin")) {
-				soundSourcesPath = path.toString() + "/sound";
-			} else {
-				soundSourcesPath = path.getParent().toString() + "/sound";
-			}
-		} catch(Exception ex) {
-			System.out.println("TickSound: resource couldn't be loaded!");
-			soundSourcesPath = ".";
-		}
-		
-		lowTickSoundFilePath = soundSourcesPath + "/tick_low.wav";
-		highTickSoundFilePath = soundSourcesPath + "/tick_high.wav";
-	}
+	public static String lowTickSoundFilePath = "/sound/tick_low.wav";
+	public static String highTickSoundFilePath = "/sound/tick_high.wav";
 	
 	private Clip clip;
 	
@@ -46,8 +24,9 @@ public class TickSound {
 		clip = AudioSystem.getClip();
 		
 		try {
-			File soundFile = new File(soundFilePath);
-			stream = AudioSystem.getAudioInputStream(soundFile);
+			InputStream inputStream = this.getClass().getResourceAsStream(soundFilePath);
+			BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+			stream = AudioSystem.getAudioInputStream(bufferedInputStream);
 			clip.open(stream);
 		} catch (IOException | UnsupportedAudioFileException ex) {
 			System.out.println("Audio file couldn't be loaded!");
