@@ -2,7 +2,6 @@ package mystuff.metronome.view;
 
 import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -10,13 +9,11 @@ import javafx.scene.layout.HBox;
 public class TempoControl extends HBox {
 	
 	private Slider slider;
-	private Label label;
 	
 	public TempoControl() {
 		super(10.0);
 		
 		slider = new Slider();
-		label = new Label();
 		
 		slider.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			
@@ -27,7 +24,6 @@ public class TempoControl extends HBox {
 				newEvent = new MetronomeEvent(MetronomeEvent.TEMPO_CHANGED);
 				newEvent.setTempo(getValue());
 				Event.fireEvent(TempoControl.this, newEvent);
-				updateState();
 			}
 		});
 		
@@ -37,7 +33,7 @@ public class TempoControl extends HBox {
 		slider.setShowTickLabels(true);
 		slider.setSnapToTicks(true);
 
-		this.getChildren().addAll(slider, label);
+		this.getChildren().addAll(slider);
 	}
 	
 	public void setWidth(int w) {
@@ -55,11 +51,5 @@ public class TempoControl extends HBox {
 	
 	public void setValue(int value) {
 		slider.setValue(value);
-		updateState();
-	}
-	
-	private void updateState() {
-		String tempoText = Integer.toString((int)slider.getValue()) + " bpm";
-		label.setText(tempoText);
 	}
 }
