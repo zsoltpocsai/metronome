@@ -2,16 +2,17 @@ package mystuff.metronome.view;
 
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.GridPane;
 
-public class TempoControl extends HBox {
+public class TempoControl extends GridPane {
 	
 	private Slider slider;
 	
 	public TempoControl() {
-		super(10.0);
+		super();
 		
 		slider = new Slider();
 		
@@ -33,7 +34,8 @@ public class TempoControl extends HBox {
 		slider.setShowTickLabels(true);
 		slider.setSnapToTicks(true);
 
-		this.getChildren().addAll(slider);
+		this.add(slider, 0, 0);
+		this.setAlignment(Pos.CENTER);
 	}
 	
 	public void setWidth(int w) {
