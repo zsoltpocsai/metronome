@@ -76,6 +76,14 @@ public class BeatControl extends GridPane {
 		updateDisplay();
 	}
 	
+	public void increaseBeat() {
+		this.setBeat(this.beat + 1);
+	}
+	
+	public void decreaseBeat() {
+		
+	}
+	
 	private void updateDisplay() {
 		String beatText = String.valueOf(beat);
 		beatDisplay.setText(beatText);

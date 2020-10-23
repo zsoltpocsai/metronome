@@ -5,7 +5,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.ColumnConstraints;
@@ -38,6 +37,9 @@ public class MainScene extends Scene {
 		
 		tempoControl.setWidth(WIDTH * 3 / 4);
 		
+		KeyControl.setStartStopButton(button, this);
+		KeyControl.setTempoControl(tempoControl, this);
+		
 		setGridLayout();
 		setListeners();
 	}
@@ -50,20 +52,6 @@ public class MainScene extends Scene {
 	
 	public void setBeatControl(int beat) {
 		beatControl.setBeat(beat);
-	}
-	
-	public void setElementsPosition() {
-		AnchorPane.setTopAnchor(button, (double) HEIGHT * 2 / 5);
-		AnchorPane.setLeftAnchor(button, (WIDTH - button.getWidth()) / 2);
-		
-		AnchorPane.setTopAnchor(tempoControl, (double) HEIGHT * 3 / 4);
-		AnchorPane.setLeftAnchor(tempoControl, (WIDTH - tempoControl.getWidth()) / 2);
-		
-		AnchorPane.setTopAnchor(beatControl, 0.0);
-		AnchorPane.setLeftAnchor(beatControl, (double) WIDTH / 12);
-		
-		AnchorPane.setTopAnchor(tempoDisplay, 0.0);
-		AnchorPane.setLeftAnchor(tempoDisplay, (WIDTH - tempoDisplay.getWidth()) / 2);
 	}
 	
 	private void setListeners() {
@@ -100,6 +88,7 @@ public class MainScene extends Scene {
 			rc.setValignment(VPos.CENTER);
 			rc.setVgrow(Priority.ALWAYS);
 		}
+		
 		for (int i = 0; i < pane.getColumnConstraints().size(); i++) {
 			ColumnConstraints cc = pane.getColumnConstraints().get(i);
 			cc.setHalignment(HPos.CENTER);

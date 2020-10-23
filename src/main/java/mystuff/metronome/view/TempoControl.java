@@ -1,7 +1,6 @@
 package mystuff.metronome.view;
 
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
@@ -9,6 +8,7 @@ import javafx.scene.layout.GridPane;
 
 public class TempoControl extends GridPane {
 	
+	private static final int STEP = 1;
 	private Slider slider;
 	
 	public TempoControl() {
@@ -16,16 +16,9 @@ public class TempoControl extends GridPane {
 		
 		slider = new Slider();
 		
-		slider.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			
-			@Override
-			public void handle(MouseEvent event) {
-				MetronomeEvent newEvent;
-				event.consume();
-				newEvent = new MetronomeEvent(MetronomeEvent.TEMPO_CHANGED);
-				newEvent.setTempo(getValue());
-				Event.fireEvent(TempoControl.this, newEvent);
-			}
+		slider.setOnMouseClicked((MouseEvent event) -> {
+			event.consume();
+			this.setValue(this.getValue());
 		});
 		
 		slider.setMajorTickUnit(5.0);
@@ -53,5 +46,20 @@ public class TempoControl extends GridPane {
 	
 	public void setValue(int value) {
 		slider.setValue(value);
+		fireTempoChangedEvent();
+	}
+	
+	public void increaseTempo() {
+		this.setValue(this.getValue() + STEP);
+	}
+	
+	public void decreaseTempo() {
+		this.setValue(this.getValue() - STEP);
+	}
+	
+	private void fireTempoChangedEvent() {
+		MetronomeEvent event = new MetronomeEvent(MetronomeEvent.TEMPO_CHANGED);
+		event.setTempo(this.getValue());
+		Event.fireEvent(this, event);
 	}
 }

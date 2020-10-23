@@ -28,7 +28,6 @@ public class MetronomeGUI extends Application {
 			metronome.stop();
 		});
 		
-		scene.setElementsPosition();
 		this.setMetronomeControls();
 	}
 	
